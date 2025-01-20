@@ -42,9 +42,9 @@ def ao_receber_mensagem(ws, mensagem):
     amount = mensagem['data']['amount_str']
     print(f"Preço $:{price:.2f}, Quantidade:{amount}")
     if price > 9000:
-        vender()
+        vender(quantidade="xx")
     elif price > 8000:
-        comprar()
+        comprar(quantidade="xx")
     else:
         print("Aguardar")
 
