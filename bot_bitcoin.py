@@ -1,6 +1,21 @@
 import json
-
+import bitstamp.client
 import websocket
+from bitstamp.client import trading
+import credencial
+
+
+def cliente():
+    return bitstamp.client.Trading(username=credencial.USERNAME, key =credencial.KEY,secret =credencial.SECRET)
+
+def comprar(quantidade):
+    trading_client =  cliente()
+    trading_client.buy_market_order(quantidade)
+
+def vender(quantidade):
+    trading_client = cliente()
+    trading_client.sell_market_order(quantidade)
+
 
 def ao_brir(ws):
     print("Online!")
@@ -26,7 +41,12 @@ def ao_receber_mensagem(ws, mensagem):
     price = mensagem['data']['price']
     amount = mensagem['data']['amount_str']
     print(f"Preço $:{price:.2f}, Quantidade:{amount}")
-
+    if price > 9000:
+        vender()
+    elif price > 8000:
+        comprar()
+    else:
+        print("Aguardar")
 
 if __name__ == "__main__":
     ws = websocket.WebSocketApp("wss://ws.bitstamp.net",
